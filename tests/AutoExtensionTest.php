@@ -3,9 +3,8 @@
 namespace Tourze\SymfonyDependencyServiceLoader\Tests;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Tourze\PHPUnitSymfonyUnitTest\AbstractDependencyInjectionExtensionTestCase;
-use Tourze\SymfonyDependencyServiceLoader\AutoExtension;
 use Tourze\SymfonyDependencyServiceLoader\Exception\InvalidYamlConfigurationException;
 use Tourze\SymfonyDependencyServiceLoader\Tests\Fixtures\TestAutoExtension;
 
@@ -16,7 +15,7 @@ use Tourze\SymfonyDependencyServiceLoader\Tests\Fixtures\TestAutoExtension;
  * @internal
  */
 #[CoversClass(TestAutoExtension::class)]
-class AutoExtensionTest extends AbstractDependencyInjectionExtensionTestCase
+class AutoExtensionTest extends TestCase
 {
     private string $tempDir;
 

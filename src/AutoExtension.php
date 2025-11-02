@@ -82,7 +82,12 @@ abstract class AutoExtension extends Extension
     {
         $content = Yaml::parseFile($filePath);
 
-        if (!isset($content['services']['_defaults'])) {
+        // 确保内容是数组且包含services键
+        if (!is_array($content) || !isset($content['services'])) {
+            throw new InvalidYamlConfigurationException(sprintf('YAML文件 "%s" 必须包含有效的services配置', $filePath));
+        }
+
+        if (!is_array($content['services']) || !isset($content['services']['_defaults'])) {
             throw new InvalidYamlConfigurationException(sprintf('YAML文件 "%s" 必须包含 services._defaults 配置。请添加：
 services:
   _defaults:

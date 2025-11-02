@@ -11,14 +11,23 @@ abstract class AppendDoctrineConnectionExtension extends AutoExtension implement
     {
         $defaultConfig = null;
         foreach ($container->getExtensionConfig('doctrine') as $config) {
-            if (isset($config['dbal'])) {
+            if (isset($config['dbal']) && is_array($config['dbal'])) {
                 $defaultConfig = $config['dbal'];
                 break;
             }
         }
         assert(null !== $defaultConfig);
 
-        $basicConfig = isset($defaultConfig['connections']) ? reset($defaultConfig['connections']) : $defaultConfig;
+        // 确保获取有效的连接配置
+        if (isset($defaultConfig['connections']) && is_array($defaultConfig['connections'])) {
+            $connections = $defaultConfig['connections'];
+            $firstConnection = reset($connections);
+            $basicConfig = is_array($firstConnection) ? $firstConnection : $defaultConfig;
+        } else {
+            $basicConfig = $defaultConfig;
+        }
+
+        // 安全地移除use_savepoints键
         unset($basicConfig['use_savepoints']);
 
         // 配置 doctrine dbal 连接

@@ -335,6 +335,60 @@ class AutoExtensionTest extends TestCase
         $extension->load([], $container);
     }
 
+    public function testLoadThrowsExceptionWhenYamlContentIsNotArray(): void
+    {
+        // YAML文件内容不是数组（例如只是一个字符串）
+        $invalidYaml = 'just a string value';
+
+        file_put_contents($this->tempDir . '/services.yaml', $invalidYaml);
+
+        $extension = new TestAutoExtension($this->tempDir);
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+
+        $this->expectException(InvalidYamlConfigurationException::class);
+        $this->expectExceptionMessage('必须包含有效的services配置');
+
+        $extension->load([], $container);
+    }
+
+    public function testLoadThrowsExceptionWhenServicesKeyIsMissing(): void
+    {
+        $yamlContent = <<<'YAML'
+            parameters:
+              some_param: value
+            YAML;
+
+        file_put_contents($this->tempDir . '/services.yaml', $yamlContent);
+
+        $extension = new TestAutoExtension($this->tempDir);
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+
+        $this->expectException(InvalidYamlConfigurationException::class);
+        $this->expectExceptionMessage('必须包含有效的services配置');
+
+        $extension->load([], $container);
+    }
+
+    public function testLoadThrowsExceptionWhenServicesIsNotArray(): void
+    {
+        $yamlContent = <<<'YAML'
+            services: "not an array"
+            YAML;
+
+        file_put_contents($this->tempDir . '/services.yaml', $yamlContent);
+
+        $extension = new TestAutoExtension($this->tempDir);
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+
+        $this->expectException(InvalidYamlConfigurationException::class);
+        $this->expectExceptionMessage('必须包含 services._defaults 配置');
+
+        $extension->load([], $container);
+    }
+
     private function deleteDirectory(string $dir): void
     {
         if (!is_dir($dir)) {

@@ -80,7 +80,7 @@ abstract class AutoExtension extends Extension
 
     private function validateYamlContent(string $filePath): void
     {
-        $content = Yaml::parseFile($filePath);
+        $content = Yaml::parseFile($filePath, Yaml::PARSE_CUSTOM_TAGS);
 
         // 确保内容是数组且包含services键
         if (!is_array($content) || !isset($content['services'])) {

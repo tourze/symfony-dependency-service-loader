@@ -32,7 +32,7 @@ namespace App\DependencyInjection;
 
 use Tourze\SymfonyDependencyServiceLoader\AutoExtension;
 
-class MyBundleExtension extends AutoExtension
+final class MyBundleExtension extends AutoExtension
 {
     /**
      * 返回配置文件所在目录

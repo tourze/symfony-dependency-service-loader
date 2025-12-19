@@ -7,7 +7,7 @@ use Tourze\SymfonyDependencyServiceLoader\AutoExtension;
 /**
  * 测试用的 AutoExtension 实现
  */
-class TestAutoExtension extends AutoExtension
+final class TestAutoExtension extends AutoExtension
 {
     public function __construct(private ?string $configDir = null)
     {

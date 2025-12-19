@@ -15,7 +15,7 @@ use Tourze\SymfonyDependencyServiceLoader\Tests\Fixtures\TestAutoExtension;
  * @internal
  */
 #[CoversClass(TestAutoExtension::class)]
-class AutoExtensionTest extends AbstractDependencyInjectionExtensionTestCase
+final class AutoExtensionTest extends AbstractDependencyInjectionExtensionTestCase
 {
     private string $tempDir;
 
